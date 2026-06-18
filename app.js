@@ -420,15 +420,6 @@ const glossary = [
   ["WNS", "Worst Negative Slack; the most severe timing violation among analyzed paths."]
 ];
 
-const sources = [
-  ["OpenROAD Flow Scripts", "Complete RTL-to-GDS tutorial and flow-stage organization.", "https://openroad-flow-scripts.readthedocs.io/en/latest/tutorials/FlowTutorial.html"],
-  ["YosysHQ Documentation", "Definition of Yosys as a Verilog HDL synthesis tool and synthesis primer.", "https://yosyshq.readthedocs.io/projects/yosys/en/stable/appendix/primer.html"],
-  ["OpenSTA", "Gate-level static timing verification and supported standard file formats.", "https://github.com/The-OpenROAD-Project/OpenSTA"],
-  ["KLayout", "GDS2/OASIS layout viewing and editing capabilities.", "https://www.klayout.de/"],
-  ["Si2 LEF/DEF", "Official LEF/DEF standard and reference-documentation distribution.", "https://si2.org/lef-def-downloads/"],
-  ["SkyWater PDK", "SKY130 library documentation and standard-cell library categories.", "https://skywater-pdk.readthedocs.io/en/main/contents/libraries.html"]
-];
-
 const state = {
   selectedStage: stages[0].id,
   resourceCategory: "All",
@@ -656,16 +647,6 @@ function renderGlossary() {
   updateReveals();
 }
 
-function renderSources() {
-  qs("[data-source-list]").innerHTML = sources.map(([title, description, url]) => `
-    <article class="source-item reveal">
-      <h3>${title}</h3>
-      <p>${description}</p>
-      <a href="${url}" target="_blank" rel="noopener noreferrer">Read source</a>
-    </article>
-  `).join("");
-}
-
 function setupSearch() {
   qs("[data-resource-search]").addEventListener("input", (event) => {
     state.resourceSearch = event.target.value;
@@ -850,7 +831,6 @@ function init() {
   renderResources();
   renderChecklist();
   renderGlossary();
-  renderSources();
   setupSearch();
   setupNavigation();
   setupTheme();

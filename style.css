@@ -573,8 +573,7 @@ h3 {
 .detail-grid,
 .format-grid,
 .resource-grid,
-.glossary-grid,
-.source-list {
+.glossary-grid {
   display: grid;
   gap: 16px;
 }
@@ -588,7 +587,6 @@ h3 {
 .format-card,
 .resource-card,
 .glossary-card,
-.source-item,
 .check-item,
 .progress-card {
   border: 1px solid var(--line-soft);
@@ -600,7 +598,6 @@ h3 {
 .format-card,
 .resource-card,
 .glossary-card,
-.source-item,
 .check-item {
   padding: 18px;
 }
@@ -724,7 +721,6 @@ h3 {
 .resource-card p,
 .format-card p,
 .glossary-card p,
-.source-item p,
 .stage-panel p {
   color: var(--muted);
   line-height: 1.68;
@@ -810,17 +806,6 @@ h3 {
 
 .glossary-grid {
   grid-template-columns: repeat(4, 1fr);
-}
-
-.source-list {
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.source-item a {
-  display: inline-block;
-  margin-top: 8px;
-  color: var(--accent-2);
-  font-weight: 800;
 }
 
 .code-strip {
@@ -939,7 +924,6 @@ body.light .code-strip {
   .resource-grid,
   .format-grid,
   .glossary-grid,
-  .source-list,
   .learning-path {
     grid-template-columns: 1fr;
   }
