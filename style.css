@@ -137,6 +137,7 @@ input {
 .secondary-action,
 .back-to-top,
 .resource-card a,
+.visual-card-body > a,
 .copy-button {
   border: 1px solid var(--line);
   border-radius: 6px;
@@ -573,6 +574,7 @@ h3 {
 .detail-grid,
 .format-grid,
 .resource-grid,
+.visual-gallery,
 .glossary-grid {
   display: grid;
   gap: 16px;
@@ -658,6 +660,12 @@ h3 {
   margin-bottom: 24px;
 }
 
+.visual-tools {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 24px;
+}
+
 .search-field {
   display: grid;
   gap: 8px;
@@ -712,10 +720,118 @@ h3 {
   grid-template-columns: repeat(3, 1fr);
 }
 
+.visual-gallery {
+  grid-template-columns: repeat(3, 1fr);
+}
+
 .resource-card {
   display: grid;
   align-content: start;
   gap: 12px;
+}
+
+.visual-panel {
+  display: grid;
+  gap: 16px;
+  margin: 24px 0;
+  padding: 18px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--panel-2) 80%, transparent);
+}
+
+.visual-panel h4 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+}
+
+.visual-panel p {
+  margin: 0;
+}
+
+.stage-visual-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.visual-card {
+  overflow: hidden;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  background: var(--panel);
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.visual-card:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--accent) 72%, var(--line));
+  box-shadow: 0 18px 42px var(--shadow);
+}
+
+.visual-image-wrap {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line-soft);
+  background:
+    linear-gradient(135deg, rgba(35, 199, 217, 0.12), rgba(110, 231, 168, 0.08)),
+    #050b10;
+}
+
+.compact-visual .visual-image-wrap {
+  aspect-ratio: 16 / 9;
+}
+
+.visual-image-wrap img {
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+  object-fit: contain;
+  display: block;
+  transition: transform 240ms ease;
+}
+
+.visual-card:hover .visual-image-wrap img {
+  transform: scale(1.025);
+}
+
+.visual-image-wrap span {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  max-width: calc(100% - 20px);
+  padding: 6px 8px;
+  border: 1px solid color-mix(in srgb, var(--accent) 60%, transparent);
+  border-radius: 5px;
+  background: color-mix(in srgb, #02080d 82%, transparent);
+  color: #eaf2f7;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.visual-card-body {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+}
+
+.visual-card-body .tag-row {
+  margin: 0;
+}
+
+.visual-card-body h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.visual-card-body p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.62;
 }
 
 .resource-card p,
@@ -726,12 +842,18 @@ h3 {
   line-height: 1.68;
 }
 
-.resource-card a {
+.resource-card a,
+.visual-card-body > a {
   justify-self: start;
   padding: 9px 12px;
   background: var(--panel-2);
   color: var(--accent-2);
   text-decoration: none;
+}
+
+.visual-card-body > a:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent);
 }
 
 .checklist-layout {
@@ -879,6 +1001,7 @@ body.light .code-strip {
 
   .detail-grid,
   .resource-grid,
+  .visual-gallery,
   .format-grid,
   .glossary-grid,
   .learning-path {
@@ -921,6 +1044,8 @@ body.light .code-strip {
   .resource-tools,
   .detail-grid,
   .lesson-grid,
+  .stage-visual-grid,
+  .visual-gallery,
   .resource-grid,
   .format-grid,
   .glossary-grid,

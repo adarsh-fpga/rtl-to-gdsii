@@ -320,6 +320,131 @@ const formats = [
 
 const resourceCategories = ["All", "Flow", "Synthesis", "Timing", "Layout", "Formats", "PDK"];
 
+const visualCategories = ["All", "Synthesis", "Floorplan", "Placement", "CTS", "Routing", "Timing", "Signoff"];
+
+const visuals = [
+  {
+    id: "yosys-netlist",
+    stageIds: ["synthesis"],
+    category: "Synthesis",
+    title: "Logic mapped into cells",
+    signal: "Netlist view",
+    description: "A Yosys schematic view showing how RTL becomes connected cells after synthesis and technology mapping.",
+    image: "assets/visuals/yosys-cell-mapped-counter.svg",
+    alt: "Yosys generated counter schematic after cell mapping",
+    source: "YosysHQ documentation",
+    sourceUrl: "https://yosyshq.readthedocs.io/projects/yosys/en/0.44/using_yosys/synthesis/cell_libs.html"
+  },
+  {
+    id: "openroad-floorplan",
+    stageIds: ["floorplan"],
+    category: "Floorplan",
+    title: "Floorplan canvas",
+    signal: "Core, rows, and macros",
+    description: "A real OpenROAD GUI floorplan view, useful for seeing the physical chip boundary before cells are placed.",
+    image: "assets/visuals/openroad-ibex-floorplan.webp",
+    alt: "OpenROAD GUI showing an Ibex floorplan",
+    source: "OpenROAD documentation",
+    sourceUrl: "https://openroad.readthedocs.io/en/latest/main/README.html"
+  },
+  {
+    id: "floorplan-utilization",
+    stageIds: ["floorplan"],
+    category: "Floorplan",
+    title: "Core utilization setup",
+    signal: "Die and core sizing",
+    description: "Shows how die/core sizing and utilization choices shape available placement and routing area.",
+    image: "assets/visuals/openroad-core-util.webp",
+    alt: "OpenROAD Flow Scripts tutorial screenshot for core utilization setup",
+    source: "OpenROAD Flow Scripts tutorial",
+    sourceUrl: "https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/docs/tutorials/FlowTutorial.md"
+  },
+  {
+    id: "pin-planning",
+    stageIds: ["floorplan"],
+    category: "Floorplan",
+    title: "Pin planning view",
+    signal: "I/O reachability",
+    description: "Pin placement affects routing demand, interface access, and congestion near the chip boundary.",
+    image: "assets/visuals/openroad-pin-planning.webp",
+    alt: "OpenROAD Flow Scripts screenshot showing pin placement in a floorplan",
+    source: "OpenROAD Flow Scripts tutorial",
+    sourceUrl: "https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/docs/tutorials/FlowTutorial.md"
+  },
+  {
+    id: "standard-cell-placement",
+    stageIds: ["placement"],
+    category: "Placement",
+    title: "Standard-cell placement",
+    signal: "Cells become physical",
+    description: "A placement-stage screenshot where the netlist has been converted into many cells assigned to physical rows.",
+    image: "assets/visuals/openroad-ibex-placement.webp",
+    alt: "OpenROAD Flow Scripts screenshot of standard cell placement",
+    source: "OpenROAD Flow Scripts tutorial",
+    sourceUrl: "https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/docs/tutorials/FlowTutorial.md"
+  },
+  {
+    id: "placement-congestion",
+    stageIds: ["placement", "routing"],
+    category: "Placement",
+    title: "Placement congestion map",
+    signal: "Hotspot detection",
+    description: "A congestion visualization helps beginners see where placement choices can make routing difficult later.",
+    image: "assets/visuals/openroad-placement-congestion.webp",
+    alt: "OpenROAD GUI showing placement congestion",
+    source: "OpenROAD documentation",
+    sourceUrl: "https://openroad.readthedocs.io/en/latest/main/README.html"
+  },
+  {
+    id: "clock-routing",
+    stageIds: ["cts"],
+    category: "CTS",
+    title: "Clock routing after CTS",
+    signal: "Clock delivery network",
+    description: "Clock tree visualizations show the inserted clock network that drives sequential endpoints after placement.",
+    image: "assets/visuals/openroad-clock-routing.webp",
+    alt: "OpenROAD GUI showing clock routing after clock tree synthesis",
+    source: "OpenROAD documentation",
+    sourceUrl: "https://openroad.readthedocs.io/en/latest/main/README.html"
+  },
+  {
+    id: "post-route-layout",
+    stageIds: ["routing", "physical"],
+    category: "Routing",
+    title: "Post-route metal layers",
+    signal: "Wires and vias",
+    description: "The routed view shows how physical metal layers connect cells and pins while obeying routing rules.",
+    image: "assets/visuals/openroad-ibex-routing.webp",
+    alt: "OpenROAD GUI showing a routed Ibex design",
+    source: "OpenROAD documentation",
+    sourceUrl: "https://openroad.readthedocs.io/en/latest/main/README.html"
+  },
+  {
+    id: "timing-path-view",
+    stageIds: ["sta"],
+    category: "Timing",
+    title: "Timing path inspection",
+    signal: "STA debug",
+    description: "A timing-path view helps connect STA reports to physical locations, clock paths, and data paths.",
+    image: "assets/visuals/openroad-clock-path.webp",
+    alt: "OpenROAD Flow Scripts screenshot highlighting a timing path",
+    source: "OpenROAD Flow Scripts tutorial",
+    sourceUrl: "https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/docs/tutorials/FlowTutorial.md"
+  },
+  {
+    id: "final-layout-database",
+    stageIds: ["physical", "streamout"],
+    category: "Signoff",
+    title: "Final layout database",
+    signal: "Ready for review",
+    description: "A final database view helps learners recognize the end result of placement, routing, extraction, and checks.",
+    image: "assets/visuals/openroad-final-layout-db.webp",
+    alt: "OpenROAD Flow Scripts screenshot of a final Ibex layout database",
+    source: "OpenROAD Flow Scripts tutorial",
+    sourceUrl: "https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/docs/tutorials/FlowTutorial.md"
+  }
+];
+
 const resources = [
   {
     title: "OpenROAD Flow Scripts Tutorial",
@@ -422,6 +547,7 @@ const glossary = [
 
 const state = {
   selectedStage: stages[0].id,
+  visualCategory: "All",
   resourceCategory: "All",
   resourceSearch: "",
   glossarySearch: ""
@@ -452,6 +578,7 @@ function renderStages() {
 function renderStagePanel() {
   const stage = stages.find((item) => item.id === state.selectedStage) || stages[0];
   const lesson = stageLessons[stage.id];
+  const stageVisuals = visualsForStage(stage.id);
   const panel = qs("[data-stage-panel]");
   panel.innerHTML = `
     <p class="eyebrow">${stage.id}</p>
@@ -473,6 +600,18 @@ function renderStagePanel() {
         ${lessonCard("How this module works", lesson.steps, true)}
         ${lessonCard("Beginner mistakes to avoid", lesson.beginnerMistakes)}
         ${lessonCard("Practice task", [lesson.practice])}
+      </div>
+    ` : ""}
+    ${stageVisuals.length ? `
+      <div class="visual-panel">
+        <div>
+          <p class="eyebrow">Tool View</p>
+          <h4>What this stage looks like inside EDA tools</h4>
+          <p>These visuals support the explanation above so beginners can connect the concept to real layout, netlist, timing, or routing views.</p>
+        </div>
+        <div class="stage-visual-grid">
+          ${stageVisuals.map((visual) => visualCard(visual, true)).join("")}
+        </div>
       </div>
     ` : ""}
     <div class="detail-grid">
@@ -497,6 +636,31 @@ function renderStagePanel() {
       event.currentTarget.textContent = "Select and copy";
     }
   });
+}
+
+function visualsForStage(stageId) {
+  return visuals.filter((visual) => visual.stageIds.includes(stageId));
+}
+
+function visualCard(visual, compact = false) {
+  const className = compact ? "visual-card compact-visual" : "visual-card reveal";
+  return `
+    <article class="${className}">
+      <a class="visual-image-wrap" href="${visual.sourceUrl}" target="_blank" rel="noopener noreferrer" aria-label="Open source for ${visual.title}">
+        <img src="${visual.image}" alt="${visual.alt}" loading="lazy">
+        <span>${visual.signal}</span>
+      </a>
+      <div class="visual-card-body">
+        <div class="tag-row">
+          <span class="tag">${visual.category}</span>
+          <span class="tag">${visual.source}</span>
+        </div>
+        <h3>${visual.title}</h3>
+        <p>${visual.description}</p>
+        <a href="${visual.sourceUrl}" target="_blank" rel="noopener noreferrer">Open source</a>
+      </div>
+    </article>
+  `;
 }
 
 function lessonCard(title, items, ordered = false) {
@@ -551,6 +715,28 @@ function renderFormats() {
       <p>${format.use}</p>
     </article>
   `).join("");
+}
+
+function renderVisualFilters() {
+  qs("[data-visual-filters]").innerHTML = visualCategories.map((category) => `
+    <button class="filter-chip ${category === state.visualCategory ? "active" : ""}" type="button" data-visual-filter="${category}">
+      ${category}
+    </button>
+  `).join("");
+
+  qsa("[data-visual-filter]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.visualCategory = button.dataset.visualFilter;
+      renderVisualFilters();
+      renderVisualGallery();
+    });
+  });
+}
+
+function renderVisualGallery() {
+  const visible = visuals.filter((visual) => state.visualCategory === "All" || visual.category === state.visualCategory);
+  qs("[data-visual-gallery]").innerHTML = visible.map((visual) => visualCard(visual)).join("");
+  updateReveals();
 }
 
 function renderResourceFilters() {
@@ -827,6 +1013,8 @@ function init() {
   renderStagePanel();
   renderLearningPath();
   renderFormats();
+  renderVisualFilters();
+  renderVisualGallery();
   renderResourceFilters();
   renderResources();
   renderChecklist();

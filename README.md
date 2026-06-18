@@ -10,6 +10,7 @@ This repository is written as a self-contained learning project. The main explan
 - Beginner explanations for every major module.
 - Plain-language analogies, common mistakes, and practice tasks.
 - Clickable file-format guide for RTL, SDC, Liberty, LEF, DEF, SPEF, SDF, and GDS/OASIS.
+- EDA visual gallery with official OpenROAD and Yosys screenshots for floorplanning, placement, routing, STA, and layout review.
 - Small searchable reference library with direct links to official documentation.
 - Browser-saved learning checklist.
 - Glossary for common physical design terms.
@@ -76,6 +77,12 @@ Each module answers:
 ## Content policy
 
 The main educational content is original to this repository. It is written to help beginners understand the flow before they read long tool manuals. External references are used only as a support section for deeper reading and verification of tool/file-format behavior.
+
+Visual references included:
+
+- OpenROAD GUI screenshots for floorplan, placement congestion, clock routing, and routed layout: https://openroad.readthedocs.io/
+- OpenROAD Flow Scripts tutorial screenshots for utilization, pin planning, placement, STA path viewing, and final database review: https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/docs/tutorials/FlowTutorial.md
+- Yosys synthesis schematic example: https://yosyshq.readthedocs.io/projects/yosys/en/0.44/using_yosys/synthesis/cell_libs.html
 
 Reference links included:
 
