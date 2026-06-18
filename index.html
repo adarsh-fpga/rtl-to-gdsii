@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Interactive RTL to GDSII learning portal for VLSI physical design flow, file formats, signoff checks, and official references.">
+  <title>RTL to GDSII | Interactive VLSI Design Flow</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header" id="top">
+    <a class="brand" href="#home" aria-label="RTL to GDSII home">
+      <span class="brand-mark">RG</span>
+      <span>
+        <strong>RTL to GDSII</strong>
+        <small>VLSI Physical Design Flow</small>
+      </span>
+    </a>
+    <button class="icon-button menu-toggle" type="button" aria-label="Open navigation" data-menu-toggle>
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="top-nav" aria-label="Primary navigation" data-nav>
+      <a href="#flow">Flow</a>
+      <a href="#formats">Files</a>
+      <a href="#resources">Resources</a>
+      <a href="#checklist">Checklist</a>
+      <a href="#glossary">Glossary</a>
+    </nav>
+    <button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle interface theme">Theme</button>
+  </header>
+
+  <main>
+    <section class="hero section-band" id="home">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">From synthesizable RTL to manufacturable layout</p>
+        <h1>Explore the complete RTL to GDSII journey as an interactive VLSI flow.</h1>
+        <p class="hero-text">
+          Navigate each design stage, inspect key handoff files, and open official references for synthesis,
+          floorplanning, placement, clock tree synthesis, routing, static timing analysis, physical verification,
+          and GDSII streamout.
+        </p>
+        <div class="hero-actions">
+          <a class="primary-action" href="#flow">Open Flow Explorer</a>
+          <a class="secondary-action" href="#resources">Browse References</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-label="Animated routing view">
+        <canvas id="signalCanvas" width="720" height="520"></canvas>
+        <div class="chip-labels">
+          <span>RTL</span>
+          <span>SYN</span>
+          <span>PDN</span>
+          <span>CTS</span>
+          <span>GDS</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="quick-strip" aria-label="Key learning areas">
+      <div><strong>10</strong><span>Flow stages</span></div>
+      <div><strong>8</strong><span>Core file families</span></div>
+      <div><strong>Official</strong><span>Reference links</span></div>
+      <div><strong>JS</strong><span>Interactive navigation</span></div>
+    </section>
+
+    <section class="section-band" id="flow">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Flow Explorer</p>
+        <h2>Click a stage to see what it consumes, produces, and verifies.</h2>
+        <p>
+          This sequence follows the common digital ASIC implementation path used by open RTL-to-GDS flows:
+          synthesis, floorplanning, placement, CTS, routing, analysis, signoff, and streamout.
+        </p>
+      </div>
+      <div class="flow-layout">
+        <div class="stage-rail" data-stage-rail aria-label="RTL to GDSII stages"></div>
+        <article class="stage-panel" data-stage-panel aria-live="polite"></article>
+      </div>
+    </section>
+
+    <section class="section-band muted" id="formats">
+      <div class="section-heading reveal">
+        <p class="eyebrow">File Handoffs</p>
+        <h2>Know what each file contributes before it enters the tool chain.</h2>
+        <p>
+          Physical design depends on consistent handoffs: RTL, constraints, technology abstracts, timing libraries,
+          parasitics, physical databases, and final mask layout data.
+        </p>
+      </div>
+      <div class="format-grid" data-format-grid></div>
+    </section>
+
+    <section class="section-band" id="resources">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Documents and References</p>
+        <h2>Open the source material directly from the website.</h2>
+        <p>
+          Use the filters or search box to find official documentation for RTL synthesis, OpenROAD flow stages,
+          STA, layout viewing, LEF/DEF, PDK libraries, and timing closure.
+        </p>
+      </div>
+      <div class="resource-tools">
+        <label class="search-field">
+          <span>Search resources</span>
+          <input type="search" data-resource-search placeholder="Try synthesis, STA, GDS, LEF, PDK">
+        </label>
+        <div class="filter-row" data-resource-filters></div>
+      </div>
+      <div class="resource-grid" data-resource-grid></div>
+    </section>
+
+    <section class="section-band muted" id="checklist">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Learning Checklist</p>
+        <h2>Track the concepts you have reviewed.</h2>
+        <p>
+          The checklist is saved in your browser, so learners can return and continue from the same progress state.
+        </p>
+      </div>
+      <div class="checklist-layout">
+        <div class="progress-card">
+          <span class="progress-number" data-progress-number>0%</span>
+          <div class="progress-track"><span data-progress-bar></span></div>
+          <p data-progress-caption>Start with the first item below.</p>
+          <button class="secondary-action compact" type="button" data-reset-progress>Reset progress</button>
+        </div>
+        <div class="checklist" data-checklist></div>
+      </div>
+    </section>
+
+    <section class="section-band" id="glossary">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Glossary</p>
+        <h2>Fast definitions for common RTL-to-GDSII terms.</h2>
+      </div>
+      <label class="search-field glossary-search">
+        <span>Search glossary</span>
+        <input type="search" data-glossary-search placeholder="Try slack, SPEF, LVS, CTS">
+      </label>
+      <div class="glossary-grid" data-glossary-grid></div>
+    </section>
+
+    <section class="section-band sources" id="sources">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Source Policy</p>
+        <h2>Content is kept tied to official or primary technical references.</h2>
+        <p>
+          The website avoids unsupported claims and links users to source documentation for deeper reading.
+          Tool names are used as examples of common open-source or industry flows; actual signoff requirements
+          always depend on the process design kit, foundry rules, constraints, and project methodology.
+        </p>
+      </div>
+      <div class="source-list" data-source-list></div>
+    </section>
+  </main>
+
+  <button class="back-to-top" type="button" data-back-to-top aria-label="Back to top">Top</button>
+  <script src="app.js"></script>
+</body>
+</html>
