@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+  <title id="title">RTL to GDSII Flow Diagram</title>
+  <desc id="desc">A beginner-friendly block diagram showing the sequence from specification to GDSII streamout.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1">
+      <stop offset="0" stop-color="#091015"/>
+      <stop offset="1" stop-color="#102330"/>
+    </linearGradient>
+    <linearGradient id="box" x1="0" x2="1">
+      <stop offset="0" stop-color="#123040"/>
+      <stop offset="1" stop-color="#13252f"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="360" rx="24" fill="url(#bg)"/>
+  <text x="48" y="62" fill="#eaf2f7" font-family="Arial, sans-serif" font-size="32" font-weight="700">RTL to GDSII Flow</text>
+  <text x="48" y="96" fill="#9fb2c0" font-family="Arial, sans-serif" font-size="17">Behavior becomes gates, gates become placed/routed layout, and the final layout becomes GDSII/OASIS.</text>
+  <g font-family="Arial, sans-serif">
+    <g transform="translate(48 145)">
+      <rect width="138" height="82" rx="10" fill="url(#box)" stroke="#23c7d9"/>
+      <text x="20" y="34" fill="#23c7d9" font-size="14" font-weight="700">01 SPEC</text>
+      <text x="20" y="58" fill="#eaf2f7" font-size="15">requirements</text>
+    </g>
+    <g transform="translate(218 145)">
+      <rect width="138" height="82" rx="10" fill="url(#box)" stroke="#23c7d9"/>
+      <text x="20" y="34" fill="#23c7d9" font-size="14" font-weight="700">02 RTL</text>
+      <text x="20" y="58" fill="#eaf2f7" font-size="15">behavior</text>
+    </g>
+    <g transform="translate(388 145)">
+      <rect width="138" height="82" rx="10" fill="url(#box)" stroke="#f2b95b"/>
+      <text x="20" y="34" fill="#f2b95b" font-size="14" font-weight="700">03 SYNTH</text>
+      <text x="20" y="58" fill="#eaf2f7" font-size="15">gate netlist</text>
+    </g>
+    <g transform="translate(558 145)">
+      <rect width="138" height="82" rx="10" fill="url(#box)" stroke="#6ee7a8"/>
+      <text x="20" y="34" fill="#6ee7a8" font-size="14" font-weight="700">04 FLOORPLAN</text>
+      <text x="20" y="58" fill="#eaf2f7" font-size="15">chip canvas</text>
+    </g>
+    <g transform="translate(728 145)">
+      <rect width="138" height="82" rx="10" fill="url(#box)" stroke="#6ee7a8"/>
+      <text x="20" y="34" fill="#6ee7a8" font-size="14" font-weight="700">05 PLACE</text>
+      <text x="20" y="58" fill="#eaf2f7" font-size="15">cell locations</text>
+    </g>
+    <g transform="translate(898 145)">
+      <rect width="138" height="82" rx="10" fill="url(#box)" stroke="#6ee7a8"/>
+      <text x="20" y="34" fill="#6ee7a8" font-size="14" font-weight="700">06 CTS</text>
+      <text x="20" y="58" fill="#eaf2f7" font-size="15">clock network</text>
+    </g>
+    <g transform="translate(1048 145)">
+      <rect width="104" height="82" rx="10" fill="url(#box)" stroke="#6ee7a8"/>
+      <text x="18" y="34" fill="#6ee7a8" font-size="14" font-weight="700">07 ROUTE</text>
+      <text x="18" y="58" fill="#eaf2f7" font-size="15">wires</text>
+    </g>
+    <g transform="translate(298 266)">
+      <rect width="160" height="58" rx="10" fill="#161f2a" stroke="#ff6b7a"/>
+      <text x="22" y="36" fill="#ffb3bb" font-size="15" font-weight="700">STA + EXTRACTION</text>
+    </g>
+    <g transform="translate(520 266)">
+      <rect width="170" height="58" rx="10" fill="#161f2a" stroke="#ff6b7a"/>
+      <text x="22" y="36" fill="#ffb3bb" font-size="15" font-weight="700">DRC / LVS</text>
+    </g>
+    <g transform="translate(752 266)">
+      <rect width="170" height="58" rx="10" fill="#161f2a" stroke="#a78bfa"/>
+      <text x="22" y="36" fill="#d8cafe" font-size="15" font-weight="700">GDSII STREAMOUT</text>
+    </g>
+  </g>
+  <g stroke="#4a7286" stroke-width="3" stroke-linecap="round">
+    <path d="M186 186h32"/>
+    <path d="M356 186h32"/>
+    <path d="M526 186h32"/>
+    <path d="M696 186h32"/>
+    <path d="M866 186h32"/>
+    <path d="M1036 186h12"/>
+    <path d="M600 228v34"/>
+    <path d="M690 295h62"/>
+    <path d="M458 295h62"/>
+  </g>
+</svg>

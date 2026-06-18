@@ -30,7 +30,7 @@ const stages = [
     outputs: ["Gate-level Verilog netlist", "Synthesis reports", "Updated constraints", "Initial area and timing estimates"],
     checks: ["Setup timing trend", "Area and cell usage", "Unmapped logic", "Constraint quality"],
     tags: ["yosys", "netlist", "liberty"],
-    note: "Yosys documents this role directly: it is a Verilog HDL synthesis tool that converts behavioral/RTL descriptions into lower-level design descriptions."
+    note: "For a beginner, the key lesson is that synthesis changes the design language: from behavior written by you to gates chosen from a library."
   },
   {
     id: "floorplan",
@@ -41,7 +41,7 @@ const stages = [
     outputs: ["Initial DEF", "Macro and pin plan", "Power grid", "Tap/endcap insertion"],
     checks: ["Macro channels", "I/O reachability", "Power grid coverage", "Utilization and congestion risk"],
     tags: ["pdn", "lef", "def"],
-    note: "OpenROAD flow documentation lists floorplanning, IO/tapcell insertion, and PDN as early physical-design steps."
+    note: "A weak floorplan usually appears later as routing congestion, timing trouble, or power-grid weakness, so this stage deserves careful thought."
   },
   {
     id: "placement",
@@ -63,7 +63,7 @@ const stages = [
     outputs: ["CTS DEF", "Clock tree report", "Skew and insertion-delay data"],
     checks: ["Clock reachability", "Setup and hold impact", "Transition limits", "Clock power"],
     tags: ["cts", "clock", "skew"],
-    note: "OpenROAD's CTS module is exposed through the clock_tree_synthesis command and is based on TritonCTS 2.0."
+    note: "CTS changes timing behavior because the clock is no longer ideal; always review timing again after the clock network is inserted."
   },
   {
     id: "routing",
@@ -85,7 +85,7 @@ const stages = [
     outputs: ["Timing reports", "Slack summaries", "Critical path details", "SDF if required"],
     checks: ["Setup slack", "Hold slack", "Clock uncertainty", "Corner coverage"],
     tags: ["opensta", "spef", "slack"],
-    note: "OpenSTA describes itself as a gate-level static timing verifier that reads standard formats such as Verilog, Liberty, SDC, SDF, and SPEF."
+    note: "STA is where the physical reality of wires and cells meets the timing promise made in the constraints."
   },
   {
     id: "physical",
@@ -96,7 +96,7 @@ const stages = [
     outputs: ["DRC reports", "LVS reports", "Antenna reports", "Fix list"],
     checks: ["Design rule clean", "Layout equals schematic/netlist", "No opens/shorts", "Antenna compliance"],
     tags: ["drc", "lvs", "signoff"],
-    note: "KLayout can be used to view and inspect mask-layout formats including GDS2 and OASIS; foundry signoff uses process-specific rule decks."
+    note: "Physical verification is not optional polish; it is the point where the design proves it can be built and still matches the intended circuit."
   },
   {
     id: "streamout",
@@ -107,9 +107,205 @@ const stages = [
     outputs: ["GDSII or OASIS", "Final reports", "Tapeout package", "Archive manifest"],
     checks: ["Correct top cell", "Layer map consistency", "Final DRC/LVS status", "Version traceability"],
     tags: ["gdsii", "oasis", "tapeout"],
-    note: "KLayout documentation identifies GDS and OASIS as central mask-layout formats that can be viewed, edited, and saved."
+    note: "A clean streamout package should be traceable: final layout, reports, constraints, PDK version, tool versions, and source revision should agree."
   }
 ];
+
+const learningPath = [
+  {
+    title: "1. First understand the mission",
+    text: "RTL-to-GDSII is the journey from a hardware idea to a physical layout that can be manufactured. Do not begin by memorizing tool commands. Begin by asking: what changes at each stage, what files are handed forward, and what can go wrong?"
+  },
+  {
+    title: "2. Learn the design as data",
+    text: "The same chip is represented in different forms: RTL describes behavior, a netlist describes gates, DEF describes physical placement/routing, SPEF describes parasitics, and GDSII/OASIS describes final layout geometry."
+  },
+  {
+    title: "3. Connect every tool to a reason",
+    text: "Synthesis exists because RTL is too abstract for fabrication. Placement exists because gates need physical locations. CTS exists because clocks need controlled delivery. STA exists because the chip must meet timing before tapeout."
+  },
+  {
+    title: "4. Study failures like an engineer",
+    text: "Beginner growth happens when you learn why a setup violation, hold violation, congestion hotspot, DRC error, LVS mismatch, or antenna issue appears. Treat reports as feedback, not as final answers."
+  },
+  {
+    title: "5. Build a small repeatable flow",
+    text: "Practice on a tiny counter, FSM, FIFO, or ALU. Run the same design through RTL simulation, synthesis, floorplan, placement, CTS, routing, STA, and layout viewing. Small designs make the flow understandable."
+  }
+];
+
+const stageLessons = {
+  spec: {
+    plain: "Before writing RTL, you need a clear description of what the circuit must do. In software, unclear requirements become bugs. In chip design, unclear requirements become expensive rework because every later stage depends on the assumptions made here.",
+    analogy: "Think of this stage like drawing the map before building a city. If the roads, power lines, and neighborhoods are not planned, construction teams will keep rebuilding the same area.",
+    steps: [
+      "Write the function of the block in simple words.",
+      "List inputs, outputs, clock domains, reset behavior, and interface timing expectations.",
+      "Decide the first performance goals: frequency, latency, area, and power direction.",
+      "Create initial timing constraints, even if they are rough, so downstream tools know what to optimize."
+    ],
+    beginnerMistakes: [
+      "Starting RTL without knowing clock frequency or reset behavior.",
+      "Ignoring clock-domain crossings until late verification.",
+      "Assuming constraints are only a backend topic."
+    ],
+    practice: "Pick a simple 8-bit counter. Write a one-page specification with clock, reset, enable, count direction, output behavior, and expected maximum frequency.",
+    diagram: ["Idea", "Spec", "Constraints", "RTL Plan"]
+  },
+  rtl: {
+    plain: "RTL is where behavior becomes hardware structure. You describe registers, combinational logic, state machines, and data movement between clock edges. Good RTL is easy to simulate, easy to synthesize, and easy for the physical design flow to optimize.",
+    analogy: "RTL is like an architectural drawing. It is not the final building, but it must be precise enough that construction teams can build from it.",
+    steps: [
+      "Separate sequential logic from combinational logic.",
+      "Use clear reset behavior and avoid accidental latches.",
+      "Write a small testbench that checks normal cases and corner cases.",
+      "Run lint or manual review before sending RTL to synthesis."
+    ],
+    beginnerMistakes: [
+      "Writing code that simulates but does not synthesize well.",
+      "Mixing too much logic into one always block.",
+      "Testing only the happy path and missing reset or overflow cases."
+    ],
+    practice: "Write a 4-state FSM and a testbench. Draw the state diagram, then compare the waveform with the diagram.",
+    diagram: ["Spec", "RTL", "Testbench", "Verified RTL"]
+  },
+  synthesis: {
+    plain: "Synthesis converts RTL into gates from a standard-cell library. The tool chooses cells such as NAND, NOR, muxes, flip-flops, and buffers while trying to satisfy constraints for timing, area, and power.",
+    analogy: "Imagine translating a paragraph into a limited vocabulary. The meaning must stay the same, but the final sentence can only use words from a fixed dictionary. The library is that dictionary.",
+    steps: [
+      "Read RTL and identify the top module.",
+      "Read timing libraries that define available standard cells.",
+      "Apply timing constraints so the tool knows the target speed.",
+      "Generate a gate-level netlist and reports for area, timing, and unmapped logic."
+    ],
+    beginnerMistakes: [
+      "Treating synthesis as a black box and ignoring reports.",
+      "Using unrealistic constraints that make results meaningless.",
+      "Forgetting that bad RTL structure can create poor synthesis results."
+    ],
+    practice: "Synthesize a small mux or counter. Compare the RTL with the gate-level netlist and identify flip-flops, combinational gates, and buffers.",
+    diagram: ["RTL", "Constraints", "Library", "Gate Netlist"]
+  },
+  floorplan: {
+    plain: "Floorplanning creates the physical boundary of the chip or block. It decides where the core area, macros, pins, rows, and power grid will live. A good floorplan gives later steps enough space to place and route the design.",
+    analogy: "This is city planning. You decide where large buildings, roads, power lines, and entry points go before placing individual houses.",
+    steps: [
+      "Choose die/core size and target utilization.",
+      "Place large macros first because they are hard to move later.",
+      "Plan pin locations based on connectivity.",
+      "Build power delivery so every cell can receive stable VDD and VSS."
+    ],
+    beginnerMistakes: [
+      "Using too high utilization and creating routing congestion.",
+      "Placing macros without leaving routing channels.",
+      "Thinking power planning can be fixed at the very end."
+    ],
+    practice: "Draw a block with one memory macro, four I/O sides, standard-cell rows, and a simple power grid. Mark where congestion might happen.",
+    diagram: ["Netlist", "Core Area", "Macros/Pins", "Power Grid"]
+  },
+  placement: {
+    plain: "Placement assigns physical locations to standard cells. The tool tries to keep connected cells close, reduce wirelength, avoid congestion, and improve timing before real routing begins.",
+    analogy: "After city planning, placement is assigning each house, shop, and office to a plot so people and roads can connect efficiently.",
+    steps: [
+      "Run global placement to find approximate locations.",
+      "Legalize placement so cells sit correctly on valid rows/sites.",
+      "Optimize timing by moving cells, resizing cells, or adding buffers.",
+      "Review congestion and timing before moving to CTS."
+    ],
+    beginnerMistakes: [
+      "Assuming placed cells are already fully connected by real wires.",
+      "Ignoring congestion maps before routing.",
+      "Looking only at timing and forgetting density."
+    ],
+    practice: "Take a simple netlist diagram and manually cluster strongly connected cells together. Explain why that reduces wirelength.",
+    diagram: ["Floorplan", "Global Placement", "Legalization", "Placed DEF"]
+  },
+  cts: {
+    plain: "Clock Tree Synthesis builds a controlled network that delivers the clock to flip-flops. Without CTS, the clock could reach different registers at very different times, which can break setup or hold timing.",
+    analogy: "A clock network is like a synchronized announcement system in a large building. Every room should hear the signal at nearly the right time, not randomly early or late.",
+    steps: [
+      "Identify clock roots and sequential endpoints.",
+      "Choose allowed clock buffers/inverters.",
+      "Build branches that balance delay and skew.",
+      "Re-check setup, hold, transition, and clock power after CTS."
+    ],
+    beginnerMistakes: [
+      "Thinking CTS only connects clock wires.",
+      "Ignoring hold timing after clocks are inserted.",
+      "Forgetting that clock networks can consume significant power."
+    ],
+    practice: "Draw one clock source driving eight flip-flops. Build a balanced tree and compare it with one long chain.",
+    diagram: ["Placed FFs", "Clock Root", "Buffers", "Balanced Clock Tree"]
+  },
+  routing: {
+    plain: "Routing creates the actual metal connections between placed cells and pins. Global routing plans the paths; detailed routing creates legal wires and vias that follow technology design rules.",
+    analogy: "If placement decides where buildings are, routing builds roads and cables between them while obeying construction rules.",
+    steps: [
+      "Plan approximate routes and estimate congestion.",
+      "Assign nets to metal layers and routing tracks.",
+      "Insert vias where signals move between layers.",
+      "Fix shorts, opens, antenna issues, and route-related timing problems."
+    ],
+    beginnerMistakes: [
+      "Believing a routed design is automatically signoff clean.",
+      "Ignoring antenna or via-related violations.",
+      "Not connecting routing congestion back to floorplan and placement decisions."
+    ],
+    practice: "Draw two metal layers: horizontal M1 and vertical M2. Route three nets and mark where vias are required.",
+    diagram: ["Placed DEF", "Global Route", "Detailed Route", "Routed DEF"]
+  },
+  sta: {
+    plain: "Static Timing Analysis checks whether data can travel from one register to another within the clock period. It does this mathematically using cell delays, wire parasitics, constraints, and timing corners instead of running functional simulation.",
+    analogy: "STA is like checking if a train can leave one station and reach the next before the scheduled gate closes. Setup checks late arrival; hold checks arrival that is too early.",
+    steps: [
+      "Read the gate netlist, libraries, constraints, and parasitics.",
+      "Build timing paths from startpoints to endpoints.",
+      "Calculate arrival time, required time, and slack.",
+      "Fix setup and hold violations through logic, sizing, buffering, placement, or constraint review."
+    ],
+    beginnerMistakes: [
+      "Thinking zero setup violations automatically means the chip is safe.",
+      "Ignoring hold checks after CTS and routing.",
+      "Reading only WNS and missing total failing paths."
+    ],
+    practice: "For a 10 ns clock, assume data delay is 8.2 ns and setup requirement is 0.5 ns. Calculate slack and decide whether the path passes.",
+    diagram: ["Netlist", "Liberty", "SDC/SPEF", "Timing Report"]
+  },
+  physical: {
+    plain: "Physical verification checks that the layout can be manufactured and that it still matches the intended circuit. DRC checks geometry rules; LVS checks that extracted layout connectivity matches the netlist.",
+    analogy: "This is the final inspection before construction drawings go to manufacturing. The design must be buildable and electrically equivalent to what was intended.",
+    steps: [
+      "Run DRC to find spacing, width, enclosure, and density issues.",
+      "Run LVS to compare layout connectivity with the schematic or netlist.",
+      "Review antenna and electrical checks where required.",
+      "Fix violations and re-run until the required checks are clean."
+    ],
+    beginnerMistakes: [
+      "Treating one clean DRC run as complete signoff.",
+      "Forgetting LVS can fail even when DRC passes.",
+      "Not tracking which rule deck and PDK version produced the result."
+    ],
+    practice: "Draw two wires too close together and label it as a spacing DRC issue. Then draw a missing connection and label it as an LVS issue.",
+    diagram: ["Routed Layout", "DRC", "LVS", "Clean Signoff"]
+  },
+  streamout: {
+    plain: "Streamout packages the final layout database into GDSII or OASIS for handoff. This is not just saving a file; it is the point where hierarchy, layers, fills, top cell, and signoff reports must match the release checklist.",
+    analogy: "This is like exporting the final manufacturing blueprint. The factory should receive exactly the approved version, with no missing pages or wrong layer names.",
+    steps: [
+      "Confirm the final top cell and hierarchy.",
+      "Merge required layout data such as macros, IO, seal ring, or fill.",
+      "Use the correct layer map for streamout.",
+      "Archive final GDS/OASIS with reports, constraints, logs, and revision information."
+    ],
+    beginnerMistakes: [
+      "Sending a layout without checking top cell name.",
+      "Forgetting fill, macros, or IP layout merge steps.",
+      "Not keeping reports and source versions with the final database."
+    ],
+    practice: "Create a tapeout checklist with top cell, GDS/OASIS file, DRC status, LVS status, STA status, PDK version, and commit hash.",
+    diagram: ["Clean Layout", "Layer Map", "GDS/OASIS", "Release Package"]
+  }
+};
 
 const formats = [
   { ext: "RTL", name: "Verilog/SystemVerilog", use: "Behavioral and register-transfer design source used for simulation and synthesis." },
@@ -206,7 +402,7 @@ const checklist = [
   ["Review routing", "Know the difference between global route planning and detailed route implementation."],
   ["Review STA", "Know why extracted parasitics and timing corners affect setup/hold closure."],
   ["Review DRC/LVS", "Know how physical verification checks manufacturability and netlist equivalence."],
-  ["Open source references", "Use the resource library to read official docs instead of relying on unsourced summaries."]
+  ["Use references wisely", "Treat external documents as deeper reading while keeping your own notes as the main learning path."]
 ];
 
 const glossary = [
@@ -264,12 +460,30 @@ function renderStages() {
 
 function renderStagePanel() {
   const stage = stages.find((item) => item.id === state.selectedStage) || stages[0];
+  const lesson = stageLessons[stage.id];
   const panel = qs("[data-stage-panel]");
   panel.innerHTML = `
     <p class="eyebrow">${stage.id}</p>
     <h3>${stage.title}</h3>
     <p>${stage.goal}</p>
     <div class="tag-row">${stage.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}</div>
+    ${lesson ? `
+      <div class="owned-note">
+        <strong>Beginner explanation</strong>
+        <p>${lesson.plain}</p>
+      </div>
+      <div class="mini-flow" aria-label="${stage.title} mini diagram">
+        ${lesson.diagram.map((item, index) => `
+          <span>${item}</span>${index < lesson.diagram.length - 1 ? "<i></i>" : ""}
+        `).join("")}
+      </div>
+      <div class="lesson-grid">
+        ${lessonCard("Think of it like this", [lesson.analogy])}
+        ${lessonCard("How this module works", lesson.steps, true)}
+        ${lessonCard("Beginner mistakes to avoid", lesson.beginnerMistakes)}
+        ${lessonCard("Practice task", [lesson.practice])}
+      </div>
+    ` : ""}
     <div class="detail-grid">
       ${detailCard("Inputs", stage.inputs)}
       ${detailCard("Outputs", stage.outputs)}
@@ -292,6 +506,16 @@ function renderStagePanel() {
       event.currentTarget.textContent = "Select and copy";
     }
   });
+}
+
+function lessonCard(title, items, ordered = false) {
+  const tag = ordered ? "ol" : "ul";
+  return `
+    <article class="lesson-card">
+      <h4>${title}</h4>
+      <${tag}>${items.map((item) => `<li>${item}</li>`).join("")}</${tag}>
+    </article>
+  `;
 }
 
 function detailCard(title, items) {
@@ -317,6 +541,16 @@ function snippetForStage(id) {
     streamout: "klayout final.gds\n# inspect top cell, layers, hierarchy, and final signoff package"
   };
   return snippets[id] || snippets.spec;
+}
+
+function renderLearningPath() {
+  qs("[data-learning-path]").innerHTML = learningPath.map((item, index) => `
+    <article class="learning-card reveal">
+      <span>${String(index + 1).padStart(2, "0")}</span>
+      <h3>${item.title}</h3>
+      <p>${item.text}</p>
+    </article>
+  `).join("");
 }
 
 function renderFormats() {
@@ -610,6 +844,7 @@ function drawTrace(ctx, x1, y1, x2, y2, t, color) {
 function init() {
   renderStages();
   renderStagePanel();
+  renderLearningPath();
   renderFormats();
   renderResourceFilters();
   renderResources();

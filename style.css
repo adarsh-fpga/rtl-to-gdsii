@@ -351,6 +351,48 @@ h3 {
   margin-bottom: 34px;
 }
 
+.learning-path {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
+
+.learning-card,
+.lesson-card,
+.owned-note {
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+
+.learning-card {
+  padding: 20px;
+}
+
+.learning-card span {
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  margin-bottom: 18px;
+  border-radius: 6px;
+  background: var(--panel-2);
+  color: var(--accent);
+  font-weight: 900;
+}
+
+.learning-card h3 {
+  margin-bottom: 10px;
+  font-size: 1.05rem;
+  line-height: 1.25;
+}
+
+.learning-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
 .flow-layout {
   display: grid;
   grid-template-columns: 390px 1fr;
@@ -452,6 +494,80 @@ h3 {
   background: var(--panel-2);
   font-size: 0.8rem;
   font-weight: 700;
+}
+
+.owned-note {
+  margin: 22px 0;
+  padding: 18px 20px;
+  border-left: 3px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 9%, var(--panel));
+}
+
+.owned-note strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--accent);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.owned-note p {
+  margin: 0;
+}
+
+.mini-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 22px 0;
+}
+
+.mini-flow span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel-2);
+  color: var(--text);
+  font-weight: 800;
+}
+
+.mini-flow i {
+  width: 26px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+}
+
+.lesson-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 22px 0;
+}
+
+.lesson-card {
+  padding: 18px;
+}
+
+.lesson-card h4 {
+  margin: 0 0 10px;
+  color: var(--text);
+}
+
+.lesson-card ul,
+.lesson-card ol {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--muted);
+  line-height: 1.68;
+}
+
+.lesson-card li + li {
+  margin-top: 6px;
 }
 
 .detail-grid,
@@ -779,7 +895,8 @@ body.light .code-strip {
   .detail-grid,
   .resource-grid,
   .format-grid,
-  .glossary-grid {
+  .glossary-grid,
+  .learning-path {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -818,10 +935,12 @@ body.light .code-strip {
   .quick-strip,
   .resource-tools,
   .detail-grid,
+  .lesson-grid,
   .resource-grid,
   .format-grid,
   .glossary-grid,
-  .source-list {
+  .source-list,
+  .learning-path {
     grid-template-columns: 1fr;
   }
 

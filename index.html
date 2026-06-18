@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Interactive RTL to GDSII learning portal for VLSI physical design flow, file formats, signoff checks, and official references.">
+  <meta name="description" content="Beginner-friendly RTL to GDSII learning portal with original VLSI flow explanations, diagrams, practice tasks, and optional references.">
   <title>RTL to GDSII | Interactive VLSI Design Flow</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -20,11 +20,12 @@
       <span></span><span></span><span></span>
     </button>
     <nav class="top-nav" aria-label="Primary navigation" data-nav>
-      <a href="#flow">Flow</a>
+      <a href="#learning">Learning Path</a>
+      <a href="#flow">Modules</a>
       <a href="#formats">Files</a>
-      <a href="#resources">Resources</a>
       <a href="#checklist">Checklist</a>
       <a href="#glossary">Glossary</a>
+      <a href="#resources">References</a>
     </nav>
     <button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle interface theme">Theme</button>
   </header>
@@ -32,16 +33,16 @@
   <main>
     <section class="hero section-band" id="home">
       <div class="hero-copy reveal">
-        <p class="eyebrow">From synthesizable RTL to manufacturable layout</p>
-        <h1>Explore the complete RTL to GDSII journey as an interactive VLSI flow.</h1>
+        <p class="eyebrow">Original learning notes for beginners moving into VLSI</p>
+        <h1>Learn RTL to GDSII from the basics, one physical-design module at a time.</h1>
         <p class="hero-text">
-          Navigate each design stage, inspect key handoff files, and open official references for synthesis,
-          floorplanning, placement, clock tree synthesis, routing, static timing analysis, physical verification,
-          and GDSII streamout.
+          This project explains the complete digital ASIC implementation flow in a beginner-friendly way:
+          why each stage exists, what files move between stages, what tools do internally, and how to think
+          like a VLSI engineer instead of memorizing commands.
         </p>
         <div class="hero-actions">
-          <a class="primary-action" href="#flow">Open Flow Explorer</a>
-          <a class="secondary-action" href="#resources">Browse References</a>
+          <a class="primary-action" href="#learning">Start Learning</a>
+          <a class="secondary-action" href="#flow">Open Module Explorer</a>
         </div>
       </div>
       <div class="hero-visual" aria-label="Animated routing view">
@@ -59,17 +60,31 @@
     <section class="quick-strip" aria-label="Key learning areas">
       <div><strong>10</strong><span>Flow stages</span></div>
       <div><strong>8</strong><span>Core file families</span></div>
-      <div><strong>Official</strong><span>Reference links</span></div>
-      <div><strong>JS</strong><span>Interactive navigation</span></div>
+      <div><strong>Beginner</strong><span>Plain explanations</span></div>
+      <div><strong>Practice</strong><span>Hands-on tasks</span></div>
     </section>
 
-    <section class="section-band" id="flow">
+    <section class="section-band" id="learning">
       <div class="section-heading reveal">
-        <p class="eyebrow">Flow Explorer</p>
-        <h2>Click a stage to see what it consumes, produces, and verifies.</h2>
+        <p class="eyebrow">Learning Path</p>
+        <h2>A guided route for someone entering VLSI from another background.</h2>
         <p>
-          This sequence follows the common digital ASIC implementation path used by open RTL-to-GDS flows:
-          synthesis, floorplanning, placement, CTS, routing, analysis, signoff, and streamout.
+          Start with the mental model first. The flow is not a random list of tools; it is a sequence of
+          transformations that turns behavior into manufacturable geometry while constantly checking timing,
+          power, area, and physical correctness.
+        </p>
+        <a class="secondary-action compact" href="docs/beginner-module-guide.md">Open written beginner guide</a>
+      </div>
+      <div class="learning-path" data-learning-path></div>
+    </section>
+
+    <section class="section-band muted" id="flow">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Module Explorer</p>
+        <h2>Click a module to study it in a beginner-friendly way.</h2>
+        <p>
+          Each module is written as original project content: the idea in simple language, what happens
+          inside the step, common beginner mistakes, and a practical task to try.
         </p>
       </div>
       <div class="flow-layout">
@@ -78,7 +93,7 @@
       </div>
     </section>
 
-    <section class="section-band muted" id="formats">
+    <section class="section-band" id="formats">
       <div class="section-heading reveal">
         <p class="eyebrow">File Handoffs</p>
         <h2>Know what each file contributes before it enters the tool chain.</h2>
@@ -88,25 +103,6 @@
         </p>
       </div>
       <div class="format-grid" data-format-grid></div>
-    </section>
-
-    <section class="section-band" id="resources">
-      <div class="section-heading reveal">
-        <p class="eyebrow">Documents and References</p>
-        <h2>Open the source material directly from the website.</h2>
-        <p>
-          Use the filters or search box to find official documentation for RTL synthesis, OpenROAD flow stages,
-          STA, layout viewing, LEF/DEF, PDK libraries, and timing closure.
-        </p>
-      </div>
-      <div class="resource-tools">
-        <label class="search-field">
-          <span>Search resources</span>
-          <input type="search" data-resource-search placeholder="Try synthesis, STA, GDS, LEF, PDK">
-        </label>
-        <div class="filter-row" data-resource-filters></div>
-      </div>
-      <div class="resource-grid" data-resource-grid></div>
     </section>
 
     <section class="section-band muted" id="checklist">
@@ -140,14 +136,33 @@
       <div class="glossary-grid" data-glossary-grid></div>
     </section>
 
+    <section class="section-band muted" id="resources">
+      <div class="section-heading reveal">
+        <p class="eyebrow">References for Deeper Reading</p>
+        <h2>Use external documents as support, not as the main learning content.</h2>
+        <p>
+          The explanations above are written as this project's own learning material. These links are kept in a
+          small separate library so users can verify terms, commands, and tool behavior when they want more depth.
+        </p>
+      </div>
+      <div class="resource-tools">
+        <label class="search-field">
+          <span>Search resources</span>
+          <input type="search" data-resource-search placeholder="Try synthesis, STA, GDS, LEF, PDK">
+        </label>
+        <div class="filter-row" data-resource-filters></div>
+      </div>
+      <div class="resource-grid" data-resource-grid></div>
+    </section>
+
     <section class="section-band sources" id="sources">
       <div class="section-heading reveal">
-        <p class="eyebrow">Source Policy</p>
-        <h2>Content is kept tied to official or primary technical references.</h2>
+        <p class="eyebrow">Content Policy</p>
+        <h2>Main learning content is original to this project.</h2>
         <p>
-          The website avoids unsupported claims and links users to source documentation for deeper reading.
-          Tool names are used as examples of common open-source or industry flows; actual signoff requirements
-          always depend on the process design kit, foundry rules, constraints, and project methodology.
+          The module explanations, diagrams, practice tasks, and beginner notes are written for this repository.
+          External sources are listed separately only for verification and deeper reading. Actual signoff
+          requirements always depend on the PDK, foundry decks, constraints, and project methodology.
         </p>
       </div>
       <div class="source-list" data-source-list></div>

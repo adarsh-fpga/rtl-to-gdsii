@@ -1,14 +1,16 @@
 # RTL to GDSII Interactive VLSI Flow
 
-An interactive static website for learning the digital ASIC implementation path from RTL to final GDSII/OASIS layout handoff.
+An original, beginner-friendly learning website for the digital ASIC implementation path from RTL to final GDSII/OASIS layout handoff.
 
-The site focuses on the RTL-to-GDSII / VLSI physical design flow: RTL design, verification, synthesis, floorplanning, placement, clock tree synthesis, routing, extraction, static timing analysis, physical verification, and final streamout.
+This repository is written as a self-contained learning project. The main explanations, diagrams, module notes, practice tasks, and interactive sections are created for this project. External documentation is kept separately as references for verification and deeper reading.
 
 ## What is included
 
-- Interactive stage explorer for the full RTL-to-GDSII flow.
+- Interactive module explorer for the full RTL-to-GDSII flow.
+- Beginner explanations for every major module.
+- Plain-language analogies, common mistakes, and practice tasks.
 - Clickable file-format guide for RTL, SDC, Liberty, LEF, DEF, SPEF, SDF, and GDS/OASIS.
-- Searchable resource library with direct links to official documentation.
+- Small searchable reference library with direct links to official documentation.
 - Browser-saved learning checklist.
 - Glossary for common physical design terms.
 - Animated chip/routing visual built with JavaScript canvas.
@@ -21,6 +23,11 @@ The site focuses on the RTL-to-GDSII / VLSI physical design flow: RTL design, ve
 |-- index.html
 |-- style.css
 |-- app.js
+|-- diagrams/
+|   `-- rtl-to-gdsii-flow.svg
+|-- docs/
+|   |-- README.md
+|   `-- beginner-module-guide.md
 |-- src/
 |   `-- index.html
 `-- README.md
@@ -42,11 +49,35 @@ Then open:
 http://localhost:8000
 ```
 
-## Source policy
+## Learning modules
 
-The educational content is intentionally tied to primary or official technical references. Tool behavior, file-format descriptions, and flow-stage summaries should be updated only when they can be traced to reliable documentation.
+The project explains these modules in detail:
 
-Primary references used:
+1. Specification and constraints
+2. RTL design and verification
+3. Logic synthesis
+4. Floorplanning and power planning
+5. Placement
+6. Clock tree synthesis
+7. Global and detailed routing
+8. Extraction and static timing analysis
+9. Physical verification
+10. GDSII streamout
+
+Each module answers:
+
+- What is this stage?
+- Why does it matter?
+- What files does it use?
+- What files or reports does it produce?
+- What mistakes do beginners make?
+- What small practice task can a learner try?
+
+## Content policy
+
+The main educational content is original to this repository. It is written to help beginners understand the flow before they read long tool manuals. External references are used only as a support section for deeper reading and verification of tool/file-format behavior.
+
+Reference links included:
 
 - OpenROAD Flow Scripts tutorial: https://openroad-flow-scripts.readthedocs.io/en/latest/tutorials/FlowTutorial.html
 - OpenROAD documentation: https://openroad.readthedocs.io/
